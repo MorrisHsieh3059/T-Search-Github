@@ -36,7 +36,7 @@ def route_sorting():
     point_data = history_point_data(history) # P(i, j)
     return jsonify(radix_sort(history, point_data, U))
 
-@app.route('/report/<path:name>')
+@app.route('/front/<path:name>')
 # 檔案在不在,在哪裡/有沒有亂戳,怎麼丟
 def reportroute(name):
     name = 'index.html' if name is "" else name
