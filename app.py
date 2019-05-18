@@ -10,10 +10,10 @@ U = {'points':{'point1':{'longitude': 130.3, 'latitude':21.3, 'radius': 50000}, 
 
 @app.route("/typhoon_history")
 def typhoon_history():
-    return jsonify(data_process(path))
+    return jsonify(data_process(url))
 
 @app.route("/route_sorting")
 def route_sorting():
-    history = data_process(path) # everything
+    history = data_process(url) # everything
     point_data = history_point_data(history) # P(i, j)
     return jsonify(radix_sort(history, point_data, U))
