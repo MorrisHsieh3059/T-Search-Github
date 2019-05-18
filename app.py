@@ -3,6 +3,8 @@ from data_process import data_process
 from get_functions import history_point_data
 from radix_sort import radix_sort
 
+import os
+
 app = Flask(__name__)
 path = 'bst_all.txt'
 url = "https://www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/Besttracks/bst_all.zip"
@@ -33,3 +35,12 @@ def route_sorting():
     history = data_process(url) # everything
     point_data = history_point_data(history) # P(i, j)
     return jsonify(radix_sort(history, point_data, U))
+
+@app.route('/report/<path:name>')
+# 檔案在不在,在哪裡/有沒有亂戳,怎麼丟
+def reportroute(name):
+    name = 'index.html' if name is "" else name
+    path = os.path.join("front", name)
+    with open(path) as f:
+        content = f.read()
+    return content
