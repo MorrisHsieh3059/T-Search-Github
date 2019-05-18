@@ -40,11 +40,10 @@ def route_sorting():
 # 檔案在不在,在哪裡/有沒有亂戳,怎麼丟
 def reportroute(name):
     name = 'index.html' if name is "" else name
-<<<<<<< HEAD
     path = os.path.join("front", name)
-=======
-    path = os.path.join("report", name)
->>>>>>> dae65e2b01a704849255a8215487ed839429e698
     with open(path) as f:
         content = f.read()
     return content
+
+def send_js(name):
+    return send_from_directory('js', name)
