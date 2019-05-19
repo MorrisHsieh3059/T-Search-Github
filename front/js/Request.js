@@ -53,7 +53,7 @@ class Request {
 
     for(var i=0; i<coorContainer.length; i++){ // Points
       ret['points']['point'+ (i+1)] = {
-        lontitude: coorContainer[i][0],
+        longitude: coorContainer[i][0],
         latitude: coorContainer[i][1],
         radius: radius[i]
       };

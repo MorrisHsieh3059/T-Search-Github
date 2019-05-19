@@ -71,7 +71,7 @@ class DashboardComponent {
       radius.push(this.map.bufferRadius);
       toPOST = this.query.wrap(coor, radius);
       console.log(toPOST);
-      this.query.post(toPOST, 'https://t-search-momobobowayna.herokuapp.com/user_inputs');
+      this.query.post(toPOST, 'https://t-search-momobobowayna.herokuapp.com/route_sorting');
     });
   }
 
