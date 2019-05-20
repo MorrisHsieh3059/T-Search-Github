@@ -84,7 +84,7 @@ class DashboardComponent {
         setTimeout( () => {
           console.log(this.query.getData);
           this.map.plotData(this.query.getData);
-        }, 5000);
+        }, 10000);
         this.card.showResultCard();
       }
     });
