@@ -28,9 +28,11 @@ class DashboardComponent {
     let initial = 50;
     $('#clearBtn').on('click', () => {
       this.mapHaveClicked = false;
+      this.card.hideWarning();
       this.map.removeMarker();
       this.card.removeRecord(initial);
       this.map.radiusController(initial);
+      this.card.hideResultCard();
     })
   }
 
@@ -54,6 +56,10 @@ class DashboardComponent {
         coor = this.map.getMousePosition();
         if (isNaN(coor[0])) { return; } // Prevent Error
         rowCount = this.map.coorContainer.length;
+        if(rowCount >= 7){ // Max Points Show Warning and Return
+          this.card.showWarning();
+          return;
+        };
         this.map.addMarker();
         this.card.addTr(coor, rowCount);
         this.card.slidebarMinValueControl(this.mapHaveClicked);
@@ -64,14 +70,23 @@ class DashboardComponent {
 
   // QueryBtn Onclick
   queryOnClick () {
-    let toPOST, coor, radius;
+    let toPOST, coor, radius, toGET, data;
     $('#queryBtn').on('click', () => {
-      coor = this.map.coorContainer;
-      radius = this.map.fixRadiusContainer;
-      radius.push(this.map.bufferRadius);
-      toPOST = this.query.wrap(coor, radius);
-      console.log(toPOST);
-      this.query.post(toPOST, 'https://t-search-momobobowayna.herokuapp.com/route_sorting');
+      if(this.map.coorContainer.length == 0){ return; }; // Null Coordinate Return
+      if(this.query.postCheck()) {
+        coor = this.map.coorContainer;
+        radius = this.map.fixRadiusContainer.slice(); // Reference Problem
+        radius.push(this.map.bufferRadius);
+        toPOST = this.query.wrap(coor, radius);
+        toPOST = JSON.stringify(toPOST);
+        this.query.post(toPOST, 'https://t-search-momobobowayna.herokuapp.com/route_sorting'); // POST
+        this.query.get('https://t-search-momobobowayna.herokuapp.com/route_sorting'); // GET
+        setTimeout( () => {
+          console.log(this.query.getData);
+          this.map.plotData(this.query.getData);
+        }, 5000);
+        this.card.showResultCard();
+      }
     });
   }
 
