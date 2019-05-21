@@ -4,38 +4,36 @@
 */
 class Request {
   constructor () {
+    this.getData = null;
   }
 
-  get(url) { //load data via ajax
-    $.ajax({
+  // get data via ajax
+  get(url) {
+    return $.ajax({ // return to use done
       method: 'GET',
       url: url,
-      dataType: 'json',
-      success: function(get) {
-        console.log(get);
-      }
-    });
+      dataType: 'json'
+    })
+      .done( (get) => {
+        this.getData = get;
+      });
   }
 
-  post(toPOST, url) { //load data via ajax
+  // post data via ajax
+  post(toPOST, url) {
     $.ajax({
       method: 'POST',
       url: url,
-      data: JSON.stringify(toPOST),
+      data: JSON.stringify(toPOST), // You have to Stringify TWICE
       dataType: 'json',
       contentType: "application/json; charset=utf-8"
     })
-    .done(function(data) {
-          // do stuff here
-          console.log('success');
+      .done(() => {
+          console.log('POST success');
       })
-      .fail(function(err) {
-          // do stuff here
-          console.log('failed');
-      })
-      .always(function(info) {
-          // do stuff here
-          console.log('hi');
+      .fail((err) => {
+          console.log('POST failed');
+          console.log(err);
       });
   }
 
@@ -43,6 +41,9 @@ class Request {
   wrap (coor, radius) {
     let ret = { points: {}, parameter: {}};
     let coorContainer = new Array();
+    let w = $('#wInput').val() == '' ? '' : parseFloat($('#wInput').val());
+    let month = $('#mInput').val() == '' ? 0 : parseInt($('#mInput').val());
+    let n = $('#nInput').val() == '' ? 10 : parseInt($('#nInput').val());
 
     for(var i in coor) { // From xy to LonLat
       coorContainer.push(ol.proj.toLonLat(coor[i]));
@@ -59,13 +60,60 @@ class Request {
       };
     };
 
-    ret['parameter']['w'] = '';
-    ret['parameter']['month'] = 0;
-    ret['parameter']['n'] = 10;
+
+    ret['parameter']['w'] = w;
+    ret['parameter']['month'] = month;
+    ret['parameter']['n'] = n;
 
 
     // console.log(ret);
-    return JSON.stringify(ret);
+    return ret;
+  }
+
+  postCheck () {
+    let wboolean = true;
+    let nboolean = true;
+    let mboolean = true;
+    let w = $('#wInput').val();
+    let n = $('#nInput').val();
+    let month = $('#mInput').val();
+
+    $('#wSmall').css('visibility', 'hidden');
+    $('#nSmall').css('visibility', 'hidden');
+    $('#mSmall').css('visibility', 'hidden');
+
+    if(w != '') { // Examine w
+      w = parseFloat(w);
+      if(isNaN(w)) {
+        $('#wSmall').css('visibility', 'visible');
+        wboolean = false;
+      };
+    };
+
+    if(n != '') { // Examine n
+      n = parseFloat(n);
+      if(isNaN(n) || !Number.isInteger(n)) {
+        $('#nSmall').css('visibility', 'visible');
+        nboolean = false;
+      };
+    };
+
+    if(month != '') { // Examine n
+      month = parseFloat(month);
+      if(isNaN(month) || !Number.isInteger(month)) {
+        $('#mSmall').css('visibility', 'visible');
+        mboolean = false;
+      };
+      if(month <= 0 || month >= 13){
+        $('#mSmall').css('visibility', 'visible');
+        mboolean = false;
+      }
+    };
+
+    if(wboolean && nboolean && mboolean){
+      return true;
+    }
+    return false;
   }
 
 }

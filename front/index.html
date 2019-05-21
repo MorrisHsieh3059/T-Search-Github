@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="zh-TW" dir="ltr">
 
 <head>
@@ -11,6 +10,8 @@
   <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
   <!-- Bootstrap's CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Font Awesome's CSS -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <!-- my css -->
   <link rel="stylesheet" href="./css/index.css">
 </head>
@@ -18,24 +19,25 @@
 <body>
 
   <div class="Outerdiv">
+
+    <!-- Onload Div -->
+    <div id=drawBgcolor></div>
+
+    <div class="spinner-grow" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+
     <!-- map -->
     <div id="map"></div>
 
-    <!-- GetMousePosition -->
-    <div id="mouse-position"></div>
-
-    <!-- Clear Btn -->
-    <div id=clearDiv>
-      <button type="button" class="btn btn-success" id=clearBtn>Clear</button>
-    </div>
-
-    <!-- Card -->
-    <div class="card">
+    <!-- Query Card -->
+    <div class="card" id=card1>
       <div class="card-body">
         <div class="Sliderdiv">
           <div id=slidebartext>Buffer Radius : <span id=slidebarvalue>50</span> km</div>
           <input type="range" class="custom-range" min="1" max="300" value="50" id="slidebar">
         </div>
+        <!----------------------------------------------------->
         <div class="tablediv">
           <table class="table">
             <thead>
@@ -50,13 +52,52 @@
             </tbody>
           </table>
         </div>
-        <div id=queryDiv>
+        <div id=maxpoints>
+          Reach Max Points Number Limit.
+        </div>
+        <!----------------------------------------------------->
+        <form id=form>
+          <small id="wSmall" class="form-text text-muted">Index should be a number.</small>
+          <div class="form-group">
+            <label id=wtitle>Time Weighted Index :</label>
+            <input class="form-control" id="wInput" placeholder="default value 1.0">
+          </div>
+          <small id="nSmall" class="form-text text-muted">Index should be a integer.</small>
+          <div class="form-group">
+            <label id=ntitle>Number to Search :</label>
+            <input class="form-control" id="nInput" placeholder="default / max value 10">
+          </div>
+          <small id="mSmall" class="form-text text-muted">Month should be a integer in 1~12.</small>
+          <div class="form-group">
+            <label id=mtitle>Month :</label>
+            <input class="form-control" id="mInput" placeholder="default this month 1~12">
+          </div>
+        </form>
+        <!----------------------------------------------------->
+        <div id=btnDiv>
+          <button type="button" class="btn btn-success" id=clearBtn>Clear</button>
           <button type="button" class="btn btn-primary" id=queryBtn>Query</button>
         </div>
       </div>
     </div>
+
+    <!-- Switch Btn -->
+    <button type="button" class="btn btn-default btn-circle btn-lg" id="switchBtn" style="background-color: #3b5998;">
+      <i class="fas fa-sun" style="display: none;"></i>
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <!----------------------------------------------------->
+    <!-- Result Card -->
+    <div class="card" id=card2>
+      <div class="card-body" id=card2body>
+      </div>
+    </div>
+
     <!-- Proj info -->
-    <div id=detail>EPSG: 3857</div>
+    <div id=detail style="z-index: 2;">EPSG: 3857</div>
+    <!-- GetMousePosition -->
+    <div id="mouse-position" style="z-index: 2;"></div>
   </div>
 
   <!--==================================
