@@ -9,6 +9,7 @@ class DashboardComponent {
     this.query = new Request();
     this.mapHaveClicked = false; // for control Slidebar min
     this.switchCondition = 'Sun';
+    this.resultHoverEvent = null; // for indep line color
   }
 
   init() {
@@ -87,32 +88,48 @@ class DashboardComponent {
         radius.push(this.map.bufferRadius);
         toPOST = this.query.wrap(coor, radius);
         toPOST = JSON.stringify(toPOST);
-        this.query.post(toPOST, 'https://t-search-momobobowayna.herokuapp.com/route_sorting'); // POST
-        this.query.get('https://t-search-momobobowayna.herokuapp.com/route_sorting') // GET
+        this.query.post(toPOST, 'http://localhost:5000/route_sorting'); // POST
+        this.query.get('http://localhost:5000/route_sorting') // GET
           .done((get) => {
             console.log('GET success');
-            console.log(this.query.getData);
+            // console.log(this.query.getData);
             this.map.plotData(this.query.getData);
             setTimeout( () => {
               this.card.disOnload();
-              this.card.showResultCard();
-            }, 1000)
+              this.card.showResultCard(this.query.getData);
+              this.resultOnHover();
+            }, 1000);
           });
       }
     });
   }
 
+  // Switch Btn Onclick
   switchOnClick () {
     $('#switchBtn').on('click', () => {
       if (this.switchCondition == 'Sun') {
-        this.card.btnSwitch('Moon');
+        this.card.SunMoon('Moon');
         this.map.tileSwitch('Moon');
         this.switchCondition = 'Moon';
       } else if (this.switchCondition == 'Moon') {
-        this.card.btnSwitch('Sun');
+        this.card.SunMoon('Sun');
         this.map.tileSwitch('Sun');
         this.switchCondition = 'Sun';
       };
+    });
+  }
+
+  // Result Card Onhover
+  resultOnHover () {
+    let hoverColor = this.switchCondition == 'Sun' ? '#e1f4de' : '#ece6f8c1';
+    let returnColor = this.switchCondition == 'Sun' ? 'white' : '#4c4c4c';
+
+    $('#resultTbody tr').hover(function(){
+      $(this).css('background-color', hoverColor);
+      this.resultHoverEvent = $(this).closest('tr').find('td:first').text();
+      console.log(this.resultHoverEvent);
+    }, function(){
+      $(this).css('background-color', returnColor);
     });
   }
 

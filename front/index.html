@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <!-- Compatible ie=edge -->
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Typhoon Search</title>
-	<link rel="Shortcut Icon" type="image/x-icon" href="./img/cloud-computing.png">
+  <title></title>
+
   <!-- import ol -->
   <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
   <!-- Bootstrap's CSS -->
@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <!-- my css -->
   <link rel="stylesheet" href="./css/index.css">
-
 </head>
 
 <body>
@@ -91,14 +90,14 @@
     <!----------------------------------------------------->
     <!-- Result Card -->
     <div class="card" id=card2>
-      <div class="card-body">
+      <div class="card-body" id=card2body>
       </div>
     </div>
 
     <!-- Proj info -->
-    <div id=detail>EPSG: 3857</div>
+    <div id=detail style="z-index: 2;">EPSG: 3857</div>
     <!-- GetMousePosition -->
-    <div id="mouse-position"></div>
+    <div id="mouse-position" style="z-index: 2;"></div>
   </div>
 
   <!--==================================
