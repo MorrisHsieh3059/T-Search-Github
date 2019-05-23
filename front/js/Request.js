@@ -21,22 +21,14 @@ class Request {
 
   // post data via ajax
   post(toPOST, url) {
-    $.ajax({
+    return $.ajax({
       method: 'POST',
       url: url,
       data: JSON.stringify(toPOST), // You have to Stringify TWICE
       dataType: 'json',
       contentType: "application/json; charset=utf-8"
-    })
-      .done(() => {
-          console.log('POST success');
-      })
-      .fail((err) => {
-          console.log('POST failed');
-          console.log(err);
-      });
+    });
   }
-
   // LonLat to LatLon, to JSON
   wrap (coor, radius) {
     let ret = { points: {}, parameter: {}};
