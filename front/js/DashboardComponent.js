@@ -88,8 +88,8 @@ class DashboardComponent {
         radius.push(this.map.bufferRadius);
         toPOST = this.query.wrap(coor, radius);
         toPOST = JSON.stringify(toPOST);
-        this.query.post(toPOST, 'http://localhost:5000/route_sorting'); // POST
-        this.query.get('http://localhost:5000/route_sorting') // GET
+        this.query.post(toPOST, 'https://t-search-momobobowayna.herokuapp.com/front/index.html'); // POST
+        this.query.get('https://t-search-momobobowayna.herokuapp.com/front/index.html') // GET
           .done((get) => {
             console.log('GET success');
             // console.log(this.query.getData);
