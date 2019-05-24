@@ -41,14 +41,15 @@ def user_inputs():
 def typhoon_history():
     return jsonify(data_process(url))
 
-@app.route('/front/<path:name>')
+@app.route('/')
+def index():
+    return send_from_directory('front', 'index.html')
+
+@app.route('/<path:name>')
 # 檔案在不在,在哪裡/有沒有亂戳,怎麼丟
 def reportroute(name):
     name = 'index.html' if name is "" else name
-    path = os.path.join("front", name)
-    with open(path, encoding='utf-8') as f:
-        content = f.read()
-    return content
+    return send_from_directory('front', name)
 
-def send_js(name):
-    return send_from_directory('js', name)
+# def send_js(name):
+#     return send_from_directory('js', name)
