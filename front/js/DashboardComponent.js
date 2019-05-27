@@ -9,7 +9,7 @@ class DashboardComponent {
     this.query = new Request();
     this.mapHaveClicked = false; // for control Slidebar min
     this.switchCondition = 'Sun';
-    this.resultHoverEvent = null; // for indep line color
+    this.resultHoverEvent = null;
   }
 
   init() {
@@ -21,12 +21,12 @@ class DashboardComponent {
     this.switchOnClick();
   }
 
-  // init
+  /* init */
   mapInit() {
     this.map.render();
   }
 
-  // ClearBtn Onclick
+  /* ClearBtn Onclick */
   clearBtnOnClick() {
     let initial = 50;
     $('#clearBtn').on('click', () => {
@@ -38,7 +38,7 @@ class DashboardComponent {
     })
   }
 
-  // Slidebar Oninput
+  /* Slidebar Oninput */
   slideBarOnInput() {
     let currentValue;
     $('#slidebar').on('input', () => {
@@ -48,7 +48,7 @@ class DashboardComponent {
     });
   }
 
-  // Map Onclick
+  /* Map Onclick */
   mapOnClick() {
     let coor;
     let rowCount;
@@ -74,7 +74,7 @@ class DashboardComponent {
     });
   }
 
-  // QueryBtn Onclick
+  /*  QueryBtn Onclick */
   queryOnClick() {
     let toPOST, coor, radius, toGET, data;
     $('#queryBtn').on('click', () => {
@@ -108,7 +108,7 @@ class DashboardComponent {
     });
   }
 
-  // Switch Btn Onclick
+  /* Switch Btn Onclick */
   switchOnClick() {
     $('#switchBtn').on('click', () => {
       if (this.switchCondition == 'Sun') {
@@ -125,18 +125,30 @@ class DashboardComponent {
     });
   }
 
-  // Result Card Onhover
+  /* Result Card Onhover */
   resultOnHover(switchCondition) {
+    let resultHoverEvent;
     let hoverColor = switchCondition == 'Sun' ? '#e1f4de' : '#8c8c8c';
     let returnColor = switchCondition == 'Sun' ? 'white' : '#4c4c4c';
 
-    $('#resultTbody tr').hover(function() {
+    /* Control CSS & Store Data */
+    $('#resultTbody tr').hover(function () {
       $(this).css('background-color', hoverColor);
-      this.resultHoverEvent = $(this).closest('tr').find('td:first').text();
-      console.log(this.resultHoverEvent);
+      resultHoverEvent = $(this).closest('tr').find('td:first').text();
     }, function() {
-      $(this).css('background-color', returnColor);
+      $('#resultTbody tr').css('background-color', returnColor);
     });
+
+    /* Pass Data */
+    $('#resultTbody tr').on('mouseover', () => {
+      this.map.dataLineShine(resultHoverEvent);
+    });
+
+    /* Restore Color */
+    $('#resultTbody tr').on('mouseout', () => {
+      this.map.addDataLine(this.map.lineDataCoor);
+    });
+
   }
 
 }
