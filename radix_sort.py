@@ -135,7 +135,7 @@ def radix_sort(history, point_data, U):
     for i in range(n):
         typhoon_id = weight[i][0]
         name = history[typhoon_id]['header']['name']
-        print(weight[i][1])  '''Show the total score at local cmd'''
+        print(weight[i][1])  ### Show the total score at local cmd
 
         json_point_data = []
         for j in point_data[typhoon_id]:
