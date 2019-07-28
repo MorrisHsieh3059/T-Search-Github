@@ -78,9 +78,9 @@ class DashboardComponent {
   queryOnClick() {
     let toPOST, coor, radius, toGET, data;
     $('#queryBtn').on('click', () => {
-      if (this.map.coorContainer.length == 0) {
+      if (this.map.coorContainer.length == 0) { // Null Coordinate Return
         return;
-      }; // Null Coordinate Return
+      };
       if (this.query.postCheck()) {
         this.card.onload();
         coor = this.map.coorContainer;
@@ -88,21 +88,28 @@ class DashboardComponent {
         radius.push(this.map.bufferRadius);
         toPOST = this.query.wrap(coor, radius);
         toPOST = JSON.stringify(toPOST);
-        this.query.post(toPOST, '/route_sorting')
-          .done(() => { // POST
-            console.log('POST success');
 
-            this.query.get('/route_sorting')
-              .done((get) => { // GET
-                console.log('GET success');
+        console.log(toPOST);
 
-                this.map.plotData(this.query.getData);
-                setTimeout(() => {
-                  this.card.disOnload();
-                  this.card.showResultCard(this.query.getData);
-                  this.resultOnHover(this.switchCondition);
-                }, 1000);
-              });
+        this.query.get(toPOST, '/route_sorting')
+          .done((get) => { // GET Success
+            console.log('GET success');
+            console.log(this.query.getData);
+            this.map.plotData(this.query.getData);
+            setTimeout(() => {
+              this.card.disOnload();
+              this.card.showResultCard(this.query.getData);
+              this.resultOnHover(this.switchCondition);
+            }, 1000);
+            return;
+          })
+          .fail((e) => { // GET Failed
+            setTimeout(() => {
+              console.log('GET failed');
+              console.log(e);
+              // alert('Query Abort, Please Try Again');
+              this.card.disOnload();
+            }, 100);
           });
       }
     });
@@ -132,7 +139,7 @@ class DashboardComponent {
     let returnColor = switchCondition == 'Sun' ? 'white' : '#4c4c4c';
 
     /* Control CSS & Store Data */
-    $('#resultTbody tr').hover(function () {
+    $('#resultTbody tr').hover(function() {
       $(this).css('background-color', hoverColor);
       resultHoverEvent = $(this).closest('tr').find('td:first').text();
     }, function() {

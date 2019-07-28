@@ -5,30 +5,22 @@
 class Request {
   constructor() {
     this.getData = null;
+    this.GET_request = null;
+    this.POST_request = null;
   }
 
   /* get data via ajax */
-  get(url) {
-    return $.ajax({ // return to use done
-        method: 'GET',
-        url: url,
-        dataType: 'json'
+  get(toPOST, url) {
+    this.GET_request = $.ajax({ // return to use done
+        method: "GET",
+        url: url + '?toPOST=' + toPOST
       })
       .done((get) => {
         this.getData = get;
       });
+    return this.GET_request;
   }
 
-  /* post data via ajax */
-  post(toPOST, url) {
-    return $.ajax({
-      method: 'POST',
-      url: url,
-      data: JSON.stringify(toPOST), // You have to Stringify TWICE
-      dataType: 'json',
-      contentType: "application/json; charset=utf-8"
-    });
-  }
 
   /* LonLat to LatLon, to JSON */
   wrap(coor, radius) {
