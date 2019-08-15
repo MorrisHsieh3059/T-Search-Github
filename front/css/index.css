@@ -1,26 +1,45 @@
+@font-face {
+  font-family: custom-sans-serif;
+  src: local('Microsoft JhengHei');
+  unicode-range: U+4E00-9FFF;
+}
+
+@font-face {
+  font-family: custom-sans-serif;
+  src: local('Arial');
+  unicode-range: U+00-024F;
+}
+
 body {
-  font-family: 'Muli', sans-serif;
+  font-family: custom-sans-serif;
   font-size: 14px;
   line-height: 16px;
 }
 
-/* 框架 */
-.Outerdiv{
+.Outerdiv {
   display: flex;
   height: 100vh;
   width: 100vw;
 }
 
+.table a {
+  color: #3936a9;
+}
+
+.table a:hover {
+  text-decoration: none;
+}
+
+/* ==================================================== */
 /* Onload */
 #drawBgcolor {
   position: fixed;
   width: 100vw;
   height: 100vh;
   background-color: #fcfcfca1;
-  opacity: 0;
-  display: none;
+  opacity: 1;
   transition: opacity .8s ease-in-out;
-  z-index: 3;
+  z-index: 5;
 }
 
 .spinner-grow {
@@ -34,11 +53,31 @@ body {
   bottom: 0;
   width: 4rem;
   height: 4rem;
-  display: none;
   transition: .8s ease-in-out;
-  z-index: 4;
+  z-index: 6;
 }
 
+#loadingWord {
+  display: none;
+  z-index: 5;
+  position: fixed;
+  color: #4f4e4e;
+  width: 200px;
+  height: 50px;
+  font-size: x-large;
+  font-weight: 600;
+  text-align: center;
+  line-height: 47px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  margin-top: 39vh;
+  opacity: 0;
+  display: unset;
+  transition: .5s ease-in-out;
+}
+
+/* ==================================================== */
 /* Map */
 #map {
   height: 100vh;
@@ -46,6 +85,7 @@ body {
   z-index: 1;
 }
 
+/* ==================================================== */
 /* Right */
 #switchBtn, #card1 {
   position: absolute;
@@ -65,41 +105,47 @@ body {
   box-shadow: 2px 2px 4px #2c5427d1;
   z-index: 2;
 }
+
 #switchBtn:hover {
   color: #ffffff;
   box-shadow: 0.5px 0.5px 10px #ffffff;
 }
 
+/* ==================================================== */
 /* Left */
 #detail {
   position: absolute;
   left: 5px;
   bottom: 5px;
 }
+
 #mouse-position {
   position: absolute;
   bottom: 5px;
   left: 90px;
 }
 
-/* Card */
+/* ==================================================== */
+/* Card1 */
 #card1 {
   margin: 10px 1px 0px 0px;
   padding-bottom: 0px;
   width: 400px;
-  /* clear: both; */
   float: right;
   box-shadow: 1px 1px 5px #728e97;
-  max-height: 400px;
+  height: 380px;
+  max-height: 380px;
   overflow-y: scroll;
   transition: .3s ease-in-out;
   z-index: 4;
 }
 
+/* ---------------------------------------------------- */
+/* Card2 */
 #card2 {
   position: fixed;
   right: 10px;
-  top: 420px;
+  top: 400px;
   visibility: hidden;
   box-shadow: 1px 1px 5px #728e97;
   width: 0px;
@@ -108,70 +154,129 @@ body {
   overflow-x: hidden;
   padding: 0.75rem 0.5rem 0.75rem 0.5rem;
   transition: .3s ease-in-out;
-  /* height: 300px; */
-  /* width: 330px; */
-  max-height: 460px;
   z-index: 4;
 }
 
+/* ==================================================== */
 /* Scroll bar */
 ::-webkit-scrollbar {
-width: 7px;
-}
-::-webkit-scrollbar-track {
--webkit-border-radius: 10px;
-border-radius: 10px;
-margin:5px 0 5px 0;
-}
-::-webkit-scrollbar-thumb {
--webkit-border-radius: 4px;
-border-radius: 4px;
-background: rgb(219,219,219);
+  width: 7px;
 }
 
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  margin: 5px 0 5px 0;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background: rgb(219, 219, 219);
+}
+
+/* ---------------------------------------------------- */
 /* Slide bar */
 .Sliderdiv {
   padding: 5px;
 }
+
 #slidebartext {
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 
+/* ==================================================== */
+/* Manual */
 /* Table */
 .tablediv {
   text-align: center;
   padding: 5px 0px 0px 0px;
 }
+
 .table {
   margin-bottom: unset;
   text-align: center;
 }
-#maxpoints {
-  padding: 0px 5px 2px 5px;
-  text-align: right;
+
+td.inputTd {
+  /* Lat Lon td */
+  padding: 0.45rem 0.55rem 0.45rem 0.55rem;
+  text-align: center;
+}
+
+td.radiusTd {
+  /* Radius td */
+  width: 85px;
+}
+
+.radiusTdDiv {
+  /* Radius position */
+  width: 50px;
+}
+
+.latlonCenterDiv {
+  /* Lat Lon input position */
+  margin: 0 auto;
+  width: fit-content;
+}
+
+td ::-webkit-input-placeholder {
+  text-align: center;
+}
+
+#undertable {
+  padding: 3px 2px 2px 9px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.trBtnDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+#maxpointstext {
+  text-align: left;
   color: red;
+  vertical-align: middle;
+  line-height: 24px;
   visibility: hidden;
 }
 
-/* Input */
+.btn-outline-secondary {
+  height: 24px;
+  font-size: inherit;
+  padding: 0px 5px 0px 5px;
+  border-color: #848f98;
+  margin-right: 10px;
+}
+
+/* ---------------------------------------------------- */
+/* Parameter Input */
 #form {
   margin-bottom: 10px;
 }
+
 .form-group {
   display: flex;
   justify-content: space-between;
   margin-bottom: unset;
 }
-#wtitle, #ntitle, #mtitle { /* vertical center */
+
+#wtitle, #ntitle, #mtitle {
+  /* vertical center */
   height: 25px;
   line-height: 29px;
   text-align: right;
   margin-right: 10px;
 }
+
 #wInput, #nInput, #mInput {
   width: 200px;
   height: 30px;
 }
+
 #wSmall, #nSmall, #mSmall {
   margin-top: unset;
   text-align: right;
@@ -179,11 +284,42 @@ background: rgb(219,219,219);
   visibility: hidden;
 }
 
+/* ---------------------------------------------------- */
 /* Btn */
 #btnDiv {
   float: right;
 }
+
 #clearBtn {
   margin-right: 5px;
   width: 69.58px;
 }
+
+/* ==================================================== */
+/* Center */
+/* Btn */
+#CenterBtnDiv {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: center;
+}
+
+#CenterBtnDiv button {
+  padding: 0px 4px 0px 4px;
+  margin-right: 7px;
+}
+
+/* Table */
+#tBodyCenter tr {
+  transition: .2s ease-in-out;
+  cursor: pointer;
+}
+
+/* #tBodyCenter #selected {
+  background-color: #f0f0f0;
+} */
+
+/* #tBodyCenter #selected:hover {
+  background-color: #e4e4e4;
+} */

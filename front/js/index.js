@@ -1,11 +1,12 @@
-
 var dashboard;
 
-// Document Onready
-$(function () {
-  dashboard = new DashboardComponent();
+$('#loadingWord').css('opacity', '1');
+$('#loadingWord').css('margin-top', '40vh');
 
-  // dashboard init
+// Document Ready
+$(function() {
+
+  dashboard = new DashboardComponent();
   dashboard.init();
 
 });

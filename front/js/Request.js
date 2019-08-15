@@ -1,26 +1,32 @@
 /**
- * Init Dashboard Component
- * Component Event Handler
+ * Request Functions
+ *
  */
 class Request {
   constructor() {
     this.getData = null;
-    this.GET_request = null;
-    this.POST_request = null;
+    // this.GET_request = null;
   }
 
   /* get data via ajax */
-  get(toPOST, url) {
-    this.GET_request = $.ajax({ // return to use done
+  get(url = '/typhoon_forecast', toPOST = '') {
+
+    if (toPOST != '') {
+      url = url + '?toPOST=' + toPOST
+    }
+
+    // this.GET_request =
+
+    return $.ajax({ // return to use done
         method: "GET",
-        url: url + '?toPOST=' + toPOST
+        url: url
       })
       .done((get) => {
         this.getData = get;
       });
-    return this.GET_request;
-  }
+     // this.GET_request;
 
+  }
 
   /* LonLat to LatLon, to JSON */
   wrap(coor, radius) {
@@ -58,10 +64,12 @@ class Request {
     return ret;
   }
 
+  /* Check if input no wrong */
   postCheck() {
     let wboolean = true;
     let nboolean = true;
     let mboolean = true;
+    let latlonboolean = true;
     let w = $('#wInput').val();
     let n = $('#nInput').val();
     let month = $('#mInput').val();
@@ -69,6 +77,14 @@ class Request {
     $('#wSmall').css('visibility', 'hidden');
     $('#nSmall').css('visibility', 'hidden');
     $('#mSmall').css('visibility', 'hidden');
+
+    $('.latlonInput').each((i, v) => { // Examine lat lon input
+      let elem = $(v);
+      if (!elem.val().match(/^\d+\.?\d*$/)) {
+        latlonboolean = false;
+        return;
+      }
+    });
 
     if (w != '') { // Examine w
       w = parseFloat(w);
@@ -98,9 +114,10 @@ class Request {
       }
     };
 
-    if (wboolean && nboolean && mboolean) {
+    if (wboolean && nboolean && mboolean && latlonboolean) {
       return true;
     }
+    alert('Input format wrong, please correct.')
     return false;
   }
 
