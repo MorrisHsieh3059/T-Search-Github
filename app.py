@@ -1,6 +1,6 @@
 ### Environment
 from flask import Flask, request, abort, jsonify, send_from_directory, json
-import os
+import os, datetime, time
 import threading as td
 
 ### /route_sorting (Manual + Center)
@@ -52,13 +52,18 @@ def route_sorting():
 def typhoon_forecast():
 
     try:
+        start = time.time()
+
         member = ['HKO', 'JTWC', 'JMA', 'NMC', 'CWB', 'KMA']
         ret = {}
 
-        for i in range(len(get_alive_typhoons())):
+        his = get_typhoons()[0:5]
+        now = datetime.datetime.now(datetime.timezone.utc)
+
+        for i in range(5):
 
             # Record the info of the latest typhoon
-            en, zh, year, key = get_typhoons()[i]
+            en, zh, year, key = his[i]
             code, link = get_latest_link(i + 1)
 
             ret[en] = {}
@@ -69,8 +74,13 @@ def typhoon_forecast():
 
             # Record the forecast points of each center
             for center in member:
-                track = get_alive_typhoons(member = center)[key]
-                ret[en][center] = forecast_points(track)
+                track = get_typhoon_track(key, member = center)
+                if now - track[-1] < datetime.timedelta(days=1):
+                    ret[en][center] = forecast_points(track[0:-1])
+                else:
+                    end = time.time()
+                    print("typhoon_forecast runtime: %0.3f seconds." % (end - start))
+                    return jsonify(ret)
 
         return jsonify(ret)
 

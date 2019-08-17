@@ -1,6 +1,6 @@
 import re
 
-import requests, datetime
+import requests, datetime, time
 from bs4 import BeautifulSoup
 
 from .parsers import parse_forecast
@@ -71,6 +71,7 @@ def get_typhoon_track(key, member='CWB'):
     full_track = []
 
     miss = 1
+    data_time = ''
 
     for idx, elm in enumerate(results):
         istr, raw = elm
@@ -88,11 +89,14 @@ def get_typhoon_track(key, member='CWB'):
         except:
             print(member + ' has fewer forecast points, ' + str(miss) + ' at ' + str(data_time))
 
+    full_track.append(data_time)
+    
     return full_track
 
 def get_alive_typhoons(member='CWB'):
 
-    keys = get_typhoons()
+    keys = get_typhoons()[0:1]
+
     full_track = {}
 
     for typ in keys:
