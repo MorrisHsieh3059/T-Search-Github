@@ -13909,4 +13909,61 @@ URL_MAP = {
             'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201910',
         },
     },
+    '1911': {
+        'name': 'BAILU',
+        'zh': '	白鹿',
+        'year': 2019,
+        'links': {
+            'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201911',
+        },
+    },
+    '1912': {
+        'name': 'POLDI',
+        'zh': '楊柳',
+        'year': 2019,
+        'links': {
+            'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201912',
+        },
+    },
+    '1913': {
+        'name': 'LINGLING',
+        'zh': '玲玲',
+        'year': 2019,
+        'links': {
+            'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201913',
+        },
+    },
+    '1914': {
+        'name': 'KAJIKI',
+        'zh': '劍魚',
+        'year': 2019,
+        'links': {
+            'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201914',
+        },
+    },
+    '1915': {
+        'name': 'FAXAI',
+        'zh': '法西',
+        'year': 2019,
+        'links': {
+            'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201915',
+        },
+    },
+    '1916': {
+        'name': 'PEIPAH',
+        'zh': '琵琶',
+        'year': 2019,
+        'links': {
+            'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201916',
+        },
+    },
+    '1917': {
+        'name': 'TAPAH',
+        'zh': '塔巴',
+        'year': 2019,
+        'links': {
+            'cwb': 'https://rdc28.cwb.gov.tw/TDB/public/typhoon_detail?typhoon_id=201917',
+        },
+    },
+        
 }

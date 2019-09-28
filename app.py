@@ -57,17 +57,17 @@ def typhoon_forecast():
         member = ['HKO', 'JTWC', 'JMA', 'NMC', 'CWB', 'KMA']
         ret = {}
 
-        his = get_typhoons()[0:5]
+        his = get_typhoons()
         now = datetime.datetime.now(datetime.timezone.utc)
+        i = 0 # The first typhoon in the 2000 history(his)
 
-        for i in range(5):
+        while True:
 
             # Record the info of the latest typhoon
             en, zh, year, key = his[i]
             code, link = get_latest_link(i + 1)
 
-            ret[en] = {}
-            ret[en]['info'] = {"en": en, "zh": zh, "year": year, "code": code, "links": link}
+            ret[en] = {} # Add new typhoon
 
             word = '%s (%s)' % (zh, en) if zh != '' else en
             print('%d最新的颱風是：%s，代碼：%s' % (year, word, code))
@@ -75,14 +75,17 @@ def typhoon_forecast():
             # Record the forecast points of each center
             for center in member:
                 track = get_typhoon_track(key, member = center)
-                if now - track[-1] < datetime.timedelta(days=1):
+
+                if now - track[-1] < datetime.timedelta(days=1) or len(ret) <= 1: # prevent from return nothings
+                    ret[en]['info'] = {"en": en, "zh": zh, "year": year, "code": code, "links": link}
                     ret[en][center] = forecast_points(track[0:-1])
                 else:
+                    ret.pop(en) # Remove outdated typhoon
                     end = time.time()
                     print("typhoon_forecast runtime: %0.3f seconds." % (end - start))
                     return jsonify(ret)
 
-        return jsonify(ret)
+            i += 1
 
     except: # If typhoon2000 is not available
         return jsonify({"message":"Forecast center's database(typhoon2000) is not available"}), 423
